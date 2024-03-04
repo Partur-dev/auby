@@ -1,0 +1,6 @@
+.cache
+.vscode
+build
+bin
+generated.cc
+.DS_Store
