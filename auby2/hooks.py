@@ -122,12 +122,14 @@ create_hook(
 create_hook(
     "bool", "GameManager::isColorUnlocked", ["void* self", "int a1", "int a2"], 0x319548
 )
-# create_hook(
-#     "void",
-#     "PlayLayer::destroyPlayer",
-#     ["void* self", "void* player", "void* object"],
-#     0x120084,
-# )
+create_hook("bool", "PauseLayer::init", ["void* self"], 0x14ABC4)
+create_hook("bool", "PlayLayer::init", ["void* self, bool a1, bool b2"], 0x116610)
+create_hook(
+    "void",
+    "PlayLayer::destroyPlayer",
+    ["void* self", "void* player", "void* object"],
+    0x120084,
+)
 
 codegen += "}\n\n"
 codegen += "uintptr_t auby::internal::resolve(std::string sig) {\n"

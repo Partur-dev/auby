@@ -2,6 +2,7 @@
 
 #include <cocos2d.h>
 #include <functional>
+#include <gd/gd.hh>
 #include <map>
 #include <string>
 #include <type_traits>

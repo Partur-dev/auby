@@ -7,6 +7,7 @@ add_library(auby2 STATIC
   src/internal.cc
   src/generated.cc
   src/cocos.cc
+  src/gd.cc
 )
 
 target_include_directories(auby2 PUBLIC

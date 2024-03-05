@@ -27,3 +27,17 @@ CCSize CCDirector::getWinSize() {
     static auto fn = (fn_t)addr;
     return fn(this);
 }
+
+CCSprite* CCSprite::createWithSpriteFrameName(const char* frame) {
+    static auto addr = auby::internal::base() + 0x240310;
+    using fn_t = CCSprite* (*)(const char* frame);
+    static auto fn = (fn_t)addr;
+    return fn(frame);
+}
+
+CCMenu* CCMenu::create() {
+    static auto addr = auby::internal::base() + 0x1dabc8;
+    using fn_t = CCMenu* (*)();
+    static auto fn = (fn_t)addr;
+    return fn();
+}
