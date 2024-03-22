@@ -80,6 +80,12 @@ uintptr_t base() {
 }
 
 void hook(uintptr_t target, void* detour) {
+    static bool inited = false;
+    if (!inited) {
+        internal::init();
+        inited = true;
+    }
+
     origs()->insert_or_assign(detour, hooks()->at((void*)target));
     hooks()->insert_or_assign((void*)target, detour);
 }

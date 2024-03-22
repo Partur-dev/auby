@@ -1,0 +1,68 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 27,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "displayName": "Default Config",
+      "generator": "Ninja",
+      "hidden": true
+    },
+    {
+      "name": "catalyst-base",
+      "inherits": "default",
+      "hidden": true,
+      "cacheVariables": {
+        "CATALYST": true
+      }
+    },
+    {
+      "name": "ios-base",
+      "inherits": "default",
+      "hidden": true,
+      "cacheVariables": {
+        "CATALYST": false
+      }
+    },
+    {
+      "name": "catalyst",
+      "inherits": "catalyst-base",
+      "displayName": "Catalyst - Debug",
+      "binaryDir": "${sourceDir}/build/catalyst",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "catalyst-release",
+      "inherits": "catalyst-base",
+      "displayName": "Catalyst - Release",
+      "binaryDir": "${sourceDir}/build/catalyst-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "ios",
+      "inherits": "ios-base",
+      "displayName": "iOS - Debug",
+      "binaryDir": "${sourceDir}/build/ios",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "ios-release",
+      "inherits": "ios-base",
+      "displayName": "iOS - Release",
+      "binaryDir": "${sourceDir}/build/ios-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ]
+}
