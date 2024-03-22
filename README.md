@@ -35,7 +35,7 @@ __attribute__((naked)) void findTheHookProxy() {
                "mov x16, x30\n"
                "bl %[findTheHook]\n" // find the hook
                "mov x30, x11\n" // restore x30 (fix ret)
-               "mov x9, x0\n" // restore ags
+               "mov x9, x0\n" // restore args
                "mov x0, x12\n"
                "mov x1, x13\n"
                "mov x2, x14\n"
