@@ -2,6 +2,10 @@
 
 Open Source & JB-free mods for Geometry Dash
 
+## TODO
+
+- Rewrite patcher in normal language
+
 ## How hooks work
 
 ```asm

@@ -1,5 +1,3 @@
-#pragma clang optimize off
-
 #include <auby.hh>
 #include <mach-o/dyld.h>
 #include <map>
@@ -95,5 +93,3 @@ void* orig(void* detour) {
 }
 
 } // namespace auby::internal
-
-#pragma clang optimize on

@@ -97,8 +97,8 @@ def create_hook(ret: str, name: str, args: list[str], addr: int) -> str:
     patch(addr, hex)
 
 
-patch(0x3E4CFC, assemble(["cmp w0, #0", "b.hi #0x94"]))
-patch(0x3E4EE0, assemble(["nop", "nop"]))
+# patch(0x3E4CFC, assemble(["cmp w0, #0", "b.hi #0x94"]))
+# patch(0x3E4EE0, assemble(["nop", "nop"]))
 
 patch(
     get_hook,
@@ -115,21 +115,22 @@ patch(
 )
 
 
-create_hook("bool", "MenuLayer::init", ["void* self"], 0x26DEE0)
+create_hook("bool", "MenuLayer::init", ["void* self"], 0x27604c)
+create_hook("bool", "LoadingLayer::init", ["void* self", "bool fromReload"], 0x1dfa60)
 create_hook(
-    "bool", "GameManager::isIconUnlocked", ["void* self", "int a1", "int a2"], 0x319178
+    "bool", "GameManager::isIconUnlocked", ["void* self", "int a1", "int a2"], 0x3235D4
 )
 create_hook(
-    "bool", "GameManager::isColorUnlocked", ["void* self", "int a1", "int a2"], 0x319548
+    "bool", "GameManager::isColorUnlocked", ["void* self", "int a1", "int a2"], 0x3239A4
 )
-create_hook("bool", "PauseLayer::init", ["void* self"], 0x14ABC4)
-create_hook("bool", "PlayLayer::init", ["void* self, bool a1, bool b2"], 0x116610)
-create_hook(
-    "void",
-    "PlayLayer::destroyPlayer",
-    ["void* self", "void* player", "void* object"],
-    0x120084,
-)
+# create_hook("bool", "PauseLayer::init", ["void* self"], 0x14ABC4)
+# create_hook("bool", "PlayLayer::init", ["void* self, bool a1, bool b2"], 0x116610)
+# create_hook(
+#     "void",
+#     "PlayLayer::destroyPlayer",
+#     ["void* self", "void* player", "void* object"],
+#     0x120084,
+# )
 
 codegen += "}\n\n"
 codegen += "uintptr_t auby::internal::resolve(std::string sig) {\n"

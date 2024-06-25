@@ -1,43 +1,45 @@
 #include <auby.hh>
 
+CCSpriteFrameCache* CCSpriteFrameCache::sharedSpriteFrameCache() {
+    return auby::internal::call<CCSpriteFrameCache*, 0x3c4cf0>();
+}
+
+void CCSpriteFrameCache::addSpriteFramesWithFile(const char* file) {
+    return auby::internal::call<void, 0x3c5734>(this, file);
+}
+
+CCTextureCache* CCTextureCache::sharedTextureCache() {
+    return auby::internal::call<CCTextureCache*, 0x114948>();
+}
+
+CCTexture2D* CCTextureCache::addImage(const char* file, bool val) {
+    return auby::internal::call<CCTexture2D*, 0x115540>(this, file, val);
+}
+
+CCObject* CCArray::objectAtIndex(unsigned int i) {
+    return auby::internal::call<CCObject*, 0x259c24>(this, i);
+}
+
 CCLabelBMFont* CCLabelBMFont::create(const char* text, const char* font) {
-    static auto addr = auby::internal::base() + 0x301b04;
-    using fn_t = CCLabelBMFont* (*)(const char* text, const char* font);
-    static auto fn = (fn_t)addr;
-    return fn(text, font);
+    return auby::internal::call<CCLabelBMFont*, 0x30b814>(text, font);
 }
 
 void CCNode::addChild(CCNode* child) {
-    static auto addr = auby::internal::base() + 0x24444c;
-    using fn_t = void (*)(CCNode* self, CCNode* child);
-    static auto fn = (fn_t)addr;
-    return fn(this, child);
+    return auby::internal::call<void, 0x24bed8>(this, child);
 }
 
 CCDirector* CCDirector::sharedDirector() {
-    static auto addr = auby::internal::base() + 0x17bf5c;
-    using fn_t = CCDirector* (*)();
-    static auto fn = (fn_t)addr;
-    return fn();
+    return auby::internal::call<CCDirector*, 0x180c2c>();
 }
 
 CCSize CCDirector::getWinSize() {
-    static auto addr = auby::internal::base() + 0x17cbe4;
-    using fn_t = CCSize (*)(CCDirector* self);
-    static auto fn = (fn_t)addr;
-    return fn(this);
+    return auby::internal::call<CCSize, 0x1818b4>(this);
 }
 
 CCSprite* CCSprite::createWithSpriteFrameName(const char* frame) {
-    static auto addr = auby::internal::base() + 0x240310;
-    using fn_t = CCSprite* (*)(const char* frame);
-    static auto fn = (fn_t)addr;
-    return fn(frame);
+    return auby::internal::call<CCSprite*, 0x247d9c>(frame);
 }
 
 CCMenu* CCMenu::create() {
-    static auto addr = auby::internal::base() + 0x1dabc8;
-    using fn_t = CCMenu* (*)();
-    static auto fn = (fn_t)addr;
-    return fn();
+    return auby::internal::call<CCMenu*, 0x1e1940>();
 }

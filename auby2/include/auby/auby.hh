@@ -12,15 +12,28 @@ namespace auby {
 void alert(std::string msg);
 void run_in_main_queue(std::function<void()> fn);
 
-template <const auto T>
-void hook(std::string sig) {
-    internal::hook(internal::resolve(sig), (void*)T);
+template <class T, class S>
+T union_cast(S s) {
+    union {
+        T t;
+        S s;
+    } u;
+
+    u.s = s;
+    return u.t;
 }
 
-template <const auto T, typename... Args>
-static inline auto orig(Args... args) -> internal::fn_t<decltype(T)>::ret {
-    auto fn = (decltype(T))internal::orig((void*)T);
-    return fn(args...);
+template <const auto fn>
+void hook(std::string sig) {
+    spdlog::info("Hooking {}", sig);
+    internal::hook(internal::resolve(sig), union_cast<void*>(fn));
+}
+
+template <const auto fn, typename... Args>
+static inline auto orig(Args... args) {
+    auto orig_vp = internal::orig(union_cast<void*>(fn));
+    auto orig_p = union_cast<decltype(fn)>(orig_vp);
+    return orig_p(args...);
 }
 } // namespace auby
 
