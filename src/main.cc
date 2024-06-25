@@ -1,17 +1,16 @@
 #include <auby.hh>
 
 namespace {
-bool MenuLayer_init(CCNode* self) {
-    auby::orig<&MenuLayer_init>(self);
-    auto winSize = CCDirector::get()->getWinSize();
+bool $(LoadingLayer::init)(LoadingLayer* self, bool fromReload) {
+    $orig(self, fromReload);
 
-    auto label
-        = CCLabelBMFont::create("Auby v2 Experimental Build", "goldFont.fnt");
-    label->setPosition({winSize.width / 2, winSize.height - 75});
-    self->addChild(label, 100);
+    auto winSize = CCDirector::sharedDirector()->getWinSize();
+
+    auto label = CCLabelBMFont::create("Auby v2.0.0", "goldFont.fnt");
+    label->setPosition(winSize.width / 2, winSize.height / 2 - 25);
+    label->setScale(.75);
+    self->addChild(label);
 
     return true;
 }
-
-$hook(MenuLayer::init, MenuLayer_init);
 } // namespace
