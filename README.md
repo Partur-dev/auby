@@ -1,12 +1,30 @@
-# Auby
+# Auby <img src="https://cdn.discordapp.com/icons/1213607627318239355/d7fee577b10e6cde20074a2e0dbcd2c6.webp?size=240" height="42" width="168">
 
 Open Source & JB-free mods for Geometry Dash
 
-## TODO
+---
+
+<p align="center">
+  <img src="https://count.akame.moe/@Partur-dev?theme=moebooru">
+</p>
+
+---
+
+## 📱 Install
+
+1. Compile auby or get **very very very outdated** dylib from releases
+2. Get 2.206 decrypted IPA
+3. Inject auby and sideload IPA (the easiest way is to use [sideloadly](https://sideloadly.io/))
+
+## 📋 TODO
 
 - Rewrite patcher in normal language
+- Generate bindings from Partur-dev/bindings (or geode-sdk/bindings if i get invite to org)
 
-## How hooks work
+## ❓ FAQ
+
+<details>
+<summary>How Hooks Work</summary>
 
 ```asm
 gdFunc:
@@ -53,9 +71,10 @@ void init() {
 }
 ```
 
-> [!IMPORTANT]  
-> Clang optimization breaks auby, so `#pragma clang optimize off` is required
+</details>
 
-## Discord
+## 📄 License
 
-https://discord.gg/kAUjNCEYcC
+Auby is free software licensed under the [GPL-3.0](LICENSE)
+
+###### Partur • [Discord](https://discord.gg/kAUjNCEYcC) • [Telegram](https://t.me/gmd_ytro)
