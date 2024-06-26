@@ -24,7 +24,6 @@ public:
             void callback(CCNode* obj) {
                 auto args = (std::tuple<Args...>*)this;
                 std::apply(fn, *args);
-                delete args;
             }
         };
 

@@ -17,7 +17,16 @@ bool $(LoadingLayer::init)(LoadingLayer* self, bool fromReload) {
 
 bool $(MenuLayer::init)(MenuLayer* self) {
     $orig(self);
-    UI::get().show(self);
+
+    auto btn = CCMenuItemSpriteExtra::create<[](auto self) {
+        UI::get().show(self);
+    }>(CCSprite::createWithSpriteFrameName("pathIcon_10_001.png"), self);
+
+    auto menu = CCMenu::create();
+    self->addChild(menu);
+    menu->setPosition({125, 100});
+    menu->addChild(btn);
+
     return true;
 }
 } // namespace

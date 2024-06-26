@@ -1,8 +1,7 @@
 #include "ui.hh"
 
 UI& UI::get() {
-    static UI ui;
-    ui.init();
+    static auto ui = UI();
     return ui;
 }
 
@@ -22,7 +21,7 @@ UI::Tab* UI::Tab::toggle(std::string name, bool* value) {
     return this;
 }
 
-void UI::init() {
+UI::UI() {
     m_layer = CCLayer::create();
     m_layer->setTouchEnabled(true);
     m_layer->setTouchPriority(10);
@@ -31,8 +30,15 @@ void UI::init() {
     m_layer->setPosition({winSize.width / 2, winSize.height / 2});
 
     loadTabs();
+    spdlog::info("Loaded {} tabs", m_tabs.size());
+
     createBg();
     createSidebar();
+
+    m_content = CCMenu::create();
+    m_bg->addChild(m_content);
+
+    setTab(m_tabs.at(0));
 }
 
 UI::Tab* UI::addTab(std::string name) {
@@ -43,17 +49,34 @@ UI::Tab* UI::addTab(std::string name) {
 
 void UI::setTab(Tab* tab) {
     spdlog::info("Setting tab {}", tab->name);
+
+    // m_content->removeAllChildren();
+
+    for (Element* el : tab->elements) {
+        if (auto toggle = dynamic_cast<ToggleElement*>(el)) {
+            CCMenuItemSpriteExtra* btn = CCMenuItemSpriteExtra::create<[](auto toggle) {
+                *toggle->value = !*toggle->value;
+            }>(CCSprite::createWithSpriteFrameName("GJ_playBtn_001.png"), toggle);
+
+            m_content->addChild(btn);
+        }
+    }
 }
 
 void UI::loadTabs() {
     bool test;
-    addTab("Bypass")->toggle("Test", &test);
+    addTab("Bypass");
     addTab("Global")->toggle("Test", &test);
-    addTab("Level")->toggle("Test", &test);
-    addTab("Player")->toggle("Test", &test);
+    addTab("Level");
+    addTab("Player");
 }
 
 void UI::createBg() {
+    auto backdrop = CCScale9Sprite::create("square02_small.png", CCRectZero);
+    backdrop->setOpacity(75);
+    backdrop->setContentSize(CCDirector::get()->getWinSize());
+    m_layer->addChild(backdrop);
+
     m_bg = CCScale9Sprite::create("GJ_square01.png", CCRectZero);
     m_bg->setContentSize(m_size);
     m_layer->addChild(m_bg);
@@ -67,13 +90,19 @@ void UI::createSidebar() {
     sidebar->setAnchorPoint({0, 0});
     m_bg->addChild(sidebar);
 
+    auto label = CCLabelBMFont::create("Auby", "bigFont.fnt");
+    label->setScale(0.5);
+    label->setPosition(
+        ccp(sidebar->getContentSize().width / 2, sidebar->getContentSize().height - padding)
+    );
+    sidebar->addChild(label);
+
     auto menu = CCMenu::create();
     menu->setPosition({0, 0});
     sidebar->addChild(menu);
 
+    int btnOffset = padding * 2;
     for (auto* tab : m_tabs) {
-        static int btnOffset = padding * 2;
-
         auto spr = ButtonSprite::create(
             tab->name.c_str(),
             120 - padding * 2 - 5,
@@ -84,9 +113,9 @@ void UI::createSidebar() {
             .75f
         );
 
-        auto btn = CCMenuItemSpriteExtra::create<[](auto setTab) {
-            setTab();
-        }>(spr, std::bind(&UI::setTab, this, tab));
+        auto btn = CCMenuItemSpriteExtra::create<[](auto setTab, auto self, auto tab) {
+            (self->*setTab)(tab);
+        }>(spr, &UI::setTab, this, tab);
 
         btn->setPosition(ccp(sidebar->getPosition().x + 60 - padding, btnOffset));
         menu->addChild(btn);

@@ -28,11 +28,12 @@ private:
 
     CCLayer* m_layer = nullptr;
     CCScale9Sprite* m_bg = nullptr;
+    CCMenu* m_content = nullptr;
     CCSize m_size = {500, 275};
     uint padding = 10;
     std::vector<Tab*> m_tabs;
 
-    void init();
+    UI();
     Tab* addTab(std::string name);
     void setTab(Tab* tab);
     void loadTabs();
