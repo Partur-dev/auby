@@ -52,6 +52,7 @@ class CCActionManager;
 class CCComponent;
 class CCDictionary;
 class CCComponentContainer;
+class CCKeyboardDispatcher;
 
 /**
  * @addtogroup base_nodes
@@ -136,10 +137,6 @@ public:
      * @js ctor
      */
     CCNode(void);
-
-    RT_ADD(
-        CCNode(const CCNode&);
-    )
     
     /**
      * Default destructor
@@ -437,7 +434,8 @@ public:
      */
     virtual const CCSize& getContentSize() const;
 
-    RT_ADD(virtual CCSize getScaledContentSize(void); )
+    // @note RobTop Addition
+    virtual CCSize getScaledContentSize(void);
 
     /**
      * Sets whether the node is visible
@@ -615,17 +613,15 @@ public:
      * Return an array of children
      *
      * Composing a "tree" structure is a very important feature of CCNode
-     * Here's a sample code of traversing children array:
-     * @code
+     * @example
+     * // Here's a sample code of traversing children array:
      * CCNode* node = NULL;
      * CCARRAY_FOREACH(parent->getChildren(), node)
      * {
      *     node->setPosition(0,0);
      * }
-     * @endcode
-     * This sample code traverses all children nodes, and set theie position to (0,0)
-     *
-     * @return An array of children
+     * // This sample code traverses all children nodes, and set theie position to (0,0)
+     * @returns An array of children
      */
     virtual CCArray* getChildren();
     
@@ -668,7 +664,8 @@ public:
      */
     virtual void removeFromParentAndCleanup(bool cleanup);
 
-    RT_ADD( virtual void removeMeAndCleanup(void);  )
+    // @note RobTop Addition
+    virtual void removeMeAndCleanup(void);
 
     /** 
      * Removes a child from the container with a cleanup
@@ -760,7 +757,7 @@ public:
      * Returns a tag that is used to identify the node easily.
      *
      * You can set tags to node then identify them easily.
-     * @code
+     * @example
      * #define TAG_PLAYER  1
      * #define TAG_MONSTER 2
      * #define TAG_BOSS    3
@@ -785,11 +782,10 @@ public:
      *             break;
      *     }
      * }
-     * @endcode
-     *
-     * @return A interger that identifies the node.
+     * @returns A interger that identifies the node.
      */
-    RT_REMOVE(  virtual int getTag() const; )
+    // Robtop Removal
+    // virtual int getTag() const;
     /**
      * Changes the tag that is used to identify the node easily.
      *
@@ -797,7 +793,8 @@ public:
      *
      * @param A interger that indentifies the node.
      */
-    RT_REMOVE(  virtual void setTag(int nTag);  )
+    // Robtop Removal
+    // virtual void setTag(int nTag);
     
     /**
      * Returns a custom user data pointer
@@ -840,10 +837,10 @@ public:
      * @param A user assigned CCObject
      */
     virtual void setUserObject(CCObject *pUserObject);
-    
+
     /// @} end of Tag & User Data
     
-    
+public:
     /// @{
     /// @name Shader Program
     /**
@@ -1252,21 +1249,29 @@ public:
     /** 
      * Returns the matrix that transform the node's (local) space coordinates into the parent's space coordinates.
      * The matrix is in Pixels.
+     * 
+     * @note Robtop Addition: return type changed from CCAffineTransform to const CCAffineTransform
      */
-    RT_REMOVE(  virtual CCAffineTransform nodeToParentTransform(void);          )
-    RT_ADD(     virtual const CCAffineTransform nodeToParentTransform(void);    )
+    virtual const CCAffineTransform nodeToParentTransform(void);
+
+    // 2.2 additions
+    virtual const CCAffineTransform nodeToParentTransformFast();
 
     /** 
      * Returns the matrix that transform parent's space coordinates to the node's (local) space coordinates.
      * The matrix is in Pixels.
+     * 
+     * @note Robtop Addition: return type changed from CCAffineTransform to const CCAffineTransform
      */
-    RT_REMOVE(  virtual CCAffineTransform parentToNodeTransform(void);      )
-    RT_ADD(     virtual const CCAffineTransform parentToNodeTransform(void);)
+    virtual const CCAffineTransform parentToNodeTransform(void);
 
     /** 
      * Returns the world affine transform matrix. The matrix is in Pixels.
      */
     virtual CCAffineTransform nodeToWorldTransform(void);
+
+    // 2.2 additions
+    virtual CCAffineTransform nodeToWorldTransformFast();
 
     /** 
      * Returns the inverse world affine transform matrix. The matrix is in Pixels.
@@ -1316,7 +1321,7 @@ public:
      *
      *  @note The additional transform will be concatenated at the end of nodeToParentTransform.
      *        It could be used to simulate `parent-child` relationship between two nodes (e.g. one is in BatchNode, another isn't).
-     *  @code
+     *  @example
         // create a batchNode
         CCSpriteBatchNode* batch= CCSpriteBatchNode::create("Icon-114.png");
         this->addChild(batch);
@@ -1357,7 +1362,6 @@ public:
      
         // Sets the additional transform to spriteB, spriteB's rotation will based on its pseudo parent i.e. spriteA.
         spriteB->setAdditionalTransform(t);
-     *  @endcode
      */
     void setAdditionalTransform(const CCAffineTransform& additionalTransform);
     
@@ -1391,11 +1395,30 @@ public:
     virtual void removeAllComponents();
     /// @} end of component functions
     
-    RT_ADD(
-        virtual void updateTweenAction(float, const char*);
+    // @note RobTop Addition
+    virtual void updateTweenAction(float, const char*);
 
-        CCNode& operator=(const CCNode&);
-    )
+    // @note RobTop Addition
+    CCNode& operator=(const CCNode&);
+
+    // 2.2 additions
+    virtual void updateTweenActionInt(float, int);
+
+	cocos2d::CCAffineTransform getTransformTemp();
+
+	bool getUseChildIndex();
+	void setUseChildIndex(bool);
+	void qsortAllChildrenWithIndex();
+
+protected:
+	static void resetGlobalOrderOfArrival();
+    
+public:
+
+	void sortAllChildrenNoIndex();
+	void sortAllChildrenWithIndex();
+	void updateChildIndexes();
+
 
 private:
     /// lazy allocs
@@ -1442,12 +1465,14 @@ protected:
     CCGridBase *m_pGrid;                ///< a grid
     
     // 2.2 additions
-    RT_REMOVE(  int m_nZOrder; )                     ///< z-order value that affects the draw order
+    // Robtop Removal
+    // int m_nZOrder;                     ///< z-order value that affects the draw order
     
     CCArray *m_pChildren;               ///< array of children nodes
     CCNode *m_pParent;                  ///< weak reference to parent node
     
-    RT_REMOVE(  int m_nTag; )                         ///< a tag. Can be any number you assigned just to identify this node
+    // Robtop Removal
+    // int m_nTag;                         ///< a tag. Can be any number you assigned just to identify this node
     
     void *m_pUserData;                  ///< A user assingned void pointer, Can be point to any cpp object
     CCObject *m_pUserObject;            ///< A user assigned CCObject
@@ -1457,7 +1482,8 @@ protected:
     ccGLServerState m_eGLServerState;   ///< OpenGL servier side state
     
     // 2.2 additions
-    RT_REMOVE( unsigned int m_uOrderOfArrival; )     ///< used to preserve sequence while sorting children with the same zOrder
+    // Robtop Removal
+    // unsigned int m_uOrderOfArrival;     ///< used to preserve sequence while sorting children with the same zOrder
     
     CCScheduler *m_pScheduler;          ///< scheduler used to schedule timers and updates
     
@@ -1488,7 +1514,6 @@ protected:
     // 2.2 additions
     bool m_bUnkBool1;
     bool m_bUnkBool2;
-
 };
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
@@ -1505,8 +1530,7 @@ protected:
  @since v2.1
  */
 class CC_DLL CCNodeRGBA : public CCNode, public CCRGBAProtocol
-{
-public:
+{public:
     /**
      *  @js ctor
      */

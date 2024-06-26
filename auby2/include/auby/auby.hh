@@ -1,12 +1,14 @@
 #pragma once
 
 #include "internal.hh"
+#include <cocos-ext.h>
 #include <cocos2d.h>
 #include <gd/gd.hh>
 #include <spdlog/spdlog.h>
 #include <type_traits>
 
 using namespace cocos2d;
+using namespace cocos2d::extension;
 
 namespace auby {
 void alert(std::string msg);

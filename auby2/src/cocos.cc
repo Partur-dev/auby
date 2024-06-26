@@ -40,6 +40,30 @@ CCSprite* CCSprite::createWithSpriteFrameName(const char* frame) {
     return auby::internal::call<CCSprite*, 0x247d9c>(frame);
 }
 
+CCSprite* CCSprite::create(const char* name) {
+    return auby::internal::call<CCSprite*, 0x247ca0>(name);
+}
+
 CCMenu* CCMenu::create() {
     return auby::internal::call<CCMenu*, 0x1e1940>();
+}
+
+CCNode* CCNode::create() {
+    return auby::internal::call<CCNode*, 0x24bbfc>();
+}
+
+CCLayer* CCLayer::create() {
+    return auby::internal::call<CCLayer*, 0x153260>();
+}
+
+CCScale9Sprite* CCScale9Sprite::create(const char* spr, CCRect rect) {
+    return auby::internal::call<CCScale9Sprite*, 0x2261a8>(spr, rect);
+}
+
+void cocos2d::ccDrawSolidPoly(
+    const CCPoint* a1,
+    unsigned int a2,
+    cocos2d::_ccColor4F a3
+) {
+    return auby::internal::call<void, 0x25bd94>(a1, a2, a3);
 }

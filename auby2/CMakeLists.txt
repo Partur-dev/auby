@@ -24,6 +24,7 @@ target_include_directories(auby2 PUBLIC
   include/cocos2dx/include
   ${PLATFORM_INCLUDES}
   include/cocos2dx/kazmath/include
+  include/extensions
 )
 
 target_link_libraries(auby2 PUBLIC spdlog "-framework UIKit -framework WebKit -framework AVFoundation -framework CoreFoundation -framework Foundation -framework CoreGraphics")
