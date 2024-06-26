@@ -34,6 +34,7 @@ private:
 
     void init();
     Tab* addTab(std::string name);
+    void setTab(Tab* tab);
     void loadTabs();
     void createBg();
     void createSidebar();

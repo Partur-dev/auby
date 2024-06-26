@@ -41,6 +41,10 @@ UI::Tab* UI::addTab(std::string name) {
     return tab;
 }
 
+void UI::setTab(Tab* tab) {
+    spdlog::info("Setting tab {}", tab->name);
+}
+
 void UI::loadTabs() {
     bool test;
     addTab("Bypass")->toggle("Test", &test);
@@ -79,9 +83,12 @@ void UI::createSidebar() {
             .0f,
             .75f
         );
-        auto btn = CCMenuItemSpriteExtra::create<[] {}>(spr);
-        btn->setPosition(ccp(sidebar->getPosition().x + 60 - padding, btnOffset)
-        );
+
+        auto btn = CCMenuItemSpriteExtra::create<[](auto setTab) {
+            setTab();
+        }>(spr, std::bind(&UI::setTab, this, tab));
+
+        btn->setPosition(ccp(sidebar->getPosition().x + 60 - padding, btnOffset));
         menu->addChild(btn);
 
         btnOffset += btn->getContentSize().height + 5;

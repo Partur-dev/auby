@@ -1,8 +1,13 @@
 #pragma once
 
 #include <auby.hh>
+#include <spdlog/spdlog.h>
 
 using namespace cocos2d;
+
+static void test() {
+    spdlog::error("unhandled error");
+}
 
 class CCMenuItemSpriteExtra : public CCMenuItemSprite {
 public:
@@ -13,20 +18,22 @@ public:
         SEL_MenuHandler selector
     );
 
-    template <auto fn>
-    static CCMenuItemSpriteExtra* create(CCNode* spr) {
-        static auto node = CCNode::create();
-
+    template <auto fn, class... Args>
+    static CCMenuItemSpriteExtra* create(CCNode* sprite, Args... args) {
         struct Callback {
-            void callback(CCObject*) {
-                fn();
+            void callback(CCNode* obj) {
+                auto args = (std::tuple<Args...>*)this;
+                std::apply(fn, *args);
+                delete args;
             }
         };
 
+        auto obj = new std::tuple(args...);
+
         return CCMenuItemSpriteExtra::create(
-            spr,
-            spr,
-            node,
+            sprite,
+            sprite,
+            (CCNode*)obj,
             menu_selector(Callback::callback)
         );
     }

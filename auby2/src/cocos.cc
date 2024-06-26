@@ -60,10 +60,6 @@ CCScale9Sprite* CCScale9Sprite::create(const char* spr, CCRect rect) {
     return auby::internal::call<CCScale9Sprite*, 0x2261a8>(spr, rect);
 }
 
-void cocos2d::ccDrawSolidPoly(
-    const CCPoint* a1,
-    unsigned int a2,
-    cocos2d::_ccColor4F a3
-) {
+void cocos2d::ccDrawSolidPoly(const CCPoint* a1, unsigned int a2, cocos2d::_ccColor4F a3) {
     return auby::internal::call<void, 0x25bd94>(a1, a2, a3);
 }
