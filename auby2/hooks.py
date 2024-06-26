@@ -104,9 +104,9 @@ patch(
     get_hook,
     assemble(
         [
-            "ldr x9, =0x2",
+            "ldr x9, =0x3",
             "lsl x9, x9, #32",
-            "ldr x10, =0x80000000",
+            "ldr x10, =0x20000000",
             "orr x9, x9, x10",
             "ldr x9, [x9]",
             "br x9",
