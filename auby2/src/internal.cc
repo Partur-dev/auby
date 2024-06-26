@@ -58,9 +58,10 @@ __attribute__((naked)) void findTheHookProxy() {
 namespace auby::internal {
 
 void init() {
-    // this shit allocates memory at 280000000
-    mmap(
-        (void*)0x190000000,
+    auto expected = (void*)0x320000000;
+    // this shit allocates memory at 0x320000000
+    auto allocated = mmap(
+        expected,
         sizeof(void*) * 100,
         PROT_READ | PROT_WRITE,
         MAP_SHARED | MAP_ANONYMOUS,
@@ -68,7 +69,16 @@ void init() {
         0
     );
 
-    *(void**)(0x280000000) = (void*)&findTheHookProxy;
+    if (allocated != expected) {
+        spdlog::error(
+            "FATAL ERROR: Allocated at 0x{0:x}, expected at 0x{0:x}",
+            allocated,
+            expected
+        );
+        exit(1);
+    }
+
+    *(void**)(expected) = (void*)&findTheHookProxy;
 
     auby::internal::load_origs(hooks());
 }
