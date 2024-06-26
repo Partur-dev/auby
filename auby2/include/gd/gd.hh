@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ButtonSprite.hh"
 #include "CCMenuItemSpriteExtra.hh"
 #include "GManager.hh"
 #include "LoadingLayer.hh"

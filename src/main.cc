@@ -1,3 +1,4 @@
+#include "ui/ui.hh"
 #include <auby.hh>
 
 namespace {
@@ -11,6 +12,12 @@ bool $(LoadingLayer::init)(LoadingLayer* self, bool fromReload) {
     label->setScale(.75);
     self->addChild(label);
 
+    return true;
+}
+
+bool $(MenuLayer::init)(MenuLayer* self) {
+    $orig(self);
+    UI::get().show(self);
     return true;
 }
 } // namespace

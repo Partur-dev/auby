@@ -5,14 +5,6 @@
 using namespace cocos2d;
 
 class CCMenuItemSpriteExtra : public CCMenuItemSprite {
-private:
-    template <auto fn>
-    struct Callback {
-        void callback() {
-            fn();
-        }
-    };
-
 public:
     static CCMenuItemSpriteExtra* create(
         CCNode* s1,
@@ -22,12 +14,20 @@ public:
     );
 
     template <auto fn>
-    static CCMenuItemSpriteExtra* create(CCNode* spr, CCObject* target) {
+    static CCMenuItemSpriteExtra* create(CCNode* spr) {
+        static auto node = CCNode::create();
+
+        struct Callback {
+            void callback(CCObject*) {
+                fn();
+            }
+        };
+
         return CCMenuItemSpriteExtra::create(
             spr,
             spr,
-            target,
-            (SEL_MenuHandler)&Callback<fn>::callback
+            node,
+            menu_selector(Callback::callback)
         );
     }
 };
