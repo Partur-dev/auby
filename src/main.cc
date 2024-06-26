@@ -8,8 +8,8 @@ bool $(LoadingLayer::init)(LoadingLayer* self, bool fromReload) {
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
     auto label = CCLabelBMFont::create("Auby v2.0.0", "goldFont.fnt");
-    label->setPosition(winSize.width / 2, winSize.height / 2 - 25);
-    label->setScale(.75);
+    label->setPosition(winSize.width / 2, 40);
+    label->setScale(.50);
     self->addChild(label);
 
     return true;
