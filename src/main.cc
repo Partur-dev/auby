@@ -18,7 +18,7 @@ bool $(LoadingLayer::init)(LoadingLayer* self, bool fromReload) {
 bool $(MenuLayer::init)(MenuLayer* self) {
     $orig(self);
 
-    auto btn = CCMenuItemSpriteExtra::create<[](auto self) {
+    auto btn = ccMenuItemSpriteExtraWithCallback<[](auto self) {
         UI::get().show(self);
     }>(CCSprite::createWithSpriteFrameName("pathIcon_10_001.png"), self);
 

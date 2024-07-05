@@ -1,14 +1,8 @@
 #pragma once
 
 #include "internal.hh"
-#include <cocos-ext.h>
-#include <cocos2d.h>
-#include <gd/gd.hh>
 #include <spdlog/spdlog.h>
 #include <type_traits>
-
-using namespace cocos2d;
-using namespace cocos2d::extension;
 
 namespace auby {
 void alert(std::string msg);
@@ -42,7 +36,7 @@ static inline auto orig(Args... args) {
 #define AUBY_CONCAT_(x, y) x##y
 #define AUBY_CONCAT(x, y) AUBY_CONCAT_(x, y)
 
-#define $hook(target, detour)                                                  \
-    [[gnu::constructor]] void AUBY_CONCAT(_registerHook, __COUNTER__)() {      \
-        auby::hook<&detour>(#target);                                          \
+#define $hook(target, detour)                                                                      \
+    [[gnu::constructor]] void AUBY_CONCAT(_registerHook, __COUNTER__)() {                          \
+        auby::hook<&detour>(#target);                                                              \
     }

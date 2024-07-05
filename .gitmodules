@@ -1,3 +1,6 @@
 [submodule "auby2/deps/spdlog"]
 	path = auby2/deps/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "auby2/deps/bindings"]
+	path = auby2/deps/bindings
+	url = https://github.com/geode-sdk/bindings.git

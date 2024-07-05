@@ -192,6 +192,8 @@ public:
     It's only useful when the value of CC_ENABLE_CACHE_TEXTURE_DATA is 1
     */
     static void reloadAllTextures();
+
+    void prepareAsyncLoading();
 };
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA

@@ -99,7 +99,7 @@ public:
      */
     virtual TargetPlatform getTargetPlatform() = 0;
 
-    RT_ADD( virtual void openURL(const char* url);   )
+    virtual void openURL(const char* url);
 };
 
 // end of platform group

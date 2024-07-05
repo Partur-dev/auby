@@ -190,7 +190,12 @@ public:
     virtual void keyBackClicked(void);
     virtual void keyMenuClicked(void);
 
-    RT_ADD(void keyDown(enumKeyCodes);)
+    // @note RobTop addition
+    void keyDown(enumKeyCodes);
+
+    // @note 2.2 additions
+    virtual void setPreviousPriority(int);
+    virtual int getPreviousPriority();
 
     inline CCTouchScriptHandlerEntry* getScriptTouchHandlerEntry() {
         return m_pScriptTouchHandlerEntry;

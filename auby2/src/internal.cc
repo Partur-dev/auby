@@ -25,33 +25,44 @@ bool stub() {
     return true;
 }
 
-void* findTheHook() {
-    void* target;
-    asm("mov %[t], x16" : [t] "=r"(target));
+#define GET_REG(r)                                                                                 \
+    void* r;                                                                                       \
+    asm("mov %[t], " #r : [t] "=r"(r));
+#define SET_REG(r) asm("mov " #r ", %[t]" ::[t] "r"(r));
 
-    if (hooks()->contains(target)) {
-        return hooks()->at(target);
+void* findTheHook() {
+    GET_REG(x16);
+    // bekap
+    GET_REG(x11);
+    GET_REG(x12);
+    GET_REG(x1);
+    GET_REG(x2);
+    GET_REG(x3);
+    GET_REG(x4);
+
+    void* ret = (void*)&stub;
+
+    if (hooks()->contains(x16)) {
+        ret = (void*)hooks()->at(x16);
+        SET_REG(x11);
+        SET_REG(x12);
+        SET_REG(x1);
+        SET_REG(x2);
+        SET_REG(x3);
+        SET_REG(x4);
     }
 
-    return (void*)&stub;
+    return ret;
 }
 
 __attribute__((naked)) void findTheHookProxy() {
     asm volatile("mov x12, x0\n"
-                 "mov x13, x1\n"
-                 "mov x14, x2\n"
-                 "mov x15, x3\n"
-                 "mov x17, x4\n"
                  "sub x30, x30, 8\n"
                  "mov x16, x30\n"
                  "bl %[findTheHook]\n"
                  "mov x30, x11\n"
                  "mov x9, x0\n"
                  "mov x0, x12\n"
-                 "mov x1, x13\n"
-                 "mov x2, x14\n"
-                 "mov x3, x15\n"
-                 "mov x4, x17\n"
                  "br x9\n" ::[findTheHook] "i"(findTheHook));
 }
 

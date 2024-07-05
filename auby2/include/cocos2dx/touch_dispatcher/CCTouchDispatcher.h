@@ -197,6 +197,15 @@ public:
      */
     CCTouchHandler* findHandler(CCTouchDelegate *pDelegate);
 
+    // @note RobTop Addition
+    void addPrioTargetedDelegate(cocos2d::CCTouchDelegate*, int, bool);
+    // @note RobTop Addition
+      bool isUsingForcePrio();
+    // @note RobTop Addition
+      void registerForcePrio(cocos2d::CCObject*, int);
+    // @note RobTop Addition
+      void unregisterForcePrio(cocos2d::CCObject*);
+
     RT_ADD(
         void incrementForcePrio(int priority);
         void decrementForcePrio(int priority);

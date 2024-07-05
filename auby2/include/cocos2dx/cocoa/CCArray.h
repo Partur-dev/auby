@@ -176,6 +176,7 @@ public:
     unsigned int indexOfObject(CCObject* object) const;
     /** Returns an element with a certain index */
     CCObject* objectAtIndex(unsigned int index);
+    CCString* stringAtIndex(unsigned int index);
     SC_ADD(
         template <class T>
         T* objectAtIndex(unsigned int index) {

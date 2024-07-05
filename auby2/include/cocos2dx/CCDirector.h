@@ -90,7 +90,7 @@ class CCAccelerometer;
 RT_ADD(
     class CCKeyboardDispatcher;
     class CCMouseDispatcher;
-    class CCSceneDelegate;
+    class CCSceneDelegate {};
 )
 
 /**

@@ -169,7 +169,7 @@ protected:
 
     virtual bool canAttachWithIME();
     virtual bool canDetachWithIME();
-    virtual void insertText(const char * text, int len);
+    virtual void insertText(const char * text, int len, cocos2d::enumKeyCodes);
     virtual void deleteBackward();
     virtual const char * getContentText();
 private:

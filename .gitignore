@@ -2,5 +2,5 @@
 .vscode
 build
 bin
-generated.cc
+generated*
 .DS_Store

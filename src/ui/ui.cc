@@ -54,7 +54,7 @@ void UI::setTab(Tab* tab) {
 
     for (Element* el : tab->elements) {
         if (auto toggle = dynamic_cast<ToggleElement*>(el)) {
-            CCMenuItemSpriteExtra* btn = CCMenuItemSpriteExtra::create<[](auto toggle) {
+            auto btn = ccMenuItemSpriteExtraWithCallback<[](auto toggle) {
                 *toggle->value = !*toggle->value;
             }>(CCSprite::createWithSpriteFrameName("GJ_playBtn_001.png"), toggle);
 
@@ -113,7 +113,7 @@ void UI::createSidebar() {
             .75f
         );
 
-        auto btn = CCMenuItemSpriteExtra::create<[](auto setTab, auto self, auto tab) {
+        auto btn = ccMenuItemSpriteExtraWithCallback<[](auto setTab, auto self, auto tab) {
             (self->*setTab)(tab);
         }>(spr, &UI::setTab, this, tab);
 

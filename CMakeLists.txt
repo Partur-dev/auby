@@ -5,13 +5,13 @@ set(CMAKE_CXX_STANDARD 20)
 
 if(CATALYST)
   message("Building for Catalyst")
-  add_definitions(-DCC_TARGET_OS_MAC)
+  add_definitions(-DCC_TARGET_OS_MAC -DGEODE_IS_MACOS -DCommentType=CommentTypeDummy)
   set(CMAKE_SYSTEM_NAME iOS)
   set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-target x86_64-apple-ios13.1-macabi -iframework ${CMAKE_OSX_SYSROOT}/System/iOSSupport/System/Library/Frameworks")
   set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-target x86_64-apple-ios13.1-macabi -iframework ${CMAKE_OSX_SYSROOT}/System/iOSSupport/System/Library/Frameworks")
 else()
   message("Building for iOS")
-  add_definitions(-DCC_TARGET_OS_IPHONE)
+  add_definitions(-DCC_TARGET_OS_IPHONE -DGEODE_IS_MACOS -DCommentType=CommentTypeDummy)
   execute_process(COMMAND xcrun --show-sdk-path --sdk iphoneos
     OUTPUT_VARIABLE IOS_SDK
     OUTPUT_STRIP_TRAILING_WHITESPACE
