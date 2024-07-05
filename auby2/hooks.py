@@ -63,7 +63,7 @@ conds = ""
 origs = ""
 
 
-def create_hook(ret: str, name: str, args: list[str], addr: int) -> str:
+def create_hook(name: str, addr: int) -> str:
     # php moment
     global count
     global codegen
@@ -71,13 +71,12 @@ def create_hook(ret: str, name: str, args: list[str], addr: int) -> str:
     global origs
     count += 1
 
-    args = ", ".join(args)
     n = name.replace("::", "_")
 
     hex = assemble_jmp(addr, get_hook, count)
 
     codegen += f"long _{n};\n"
-    codegen += f"__attribute__((naked)) {ret} {n}({args}) {{\n"
+    codegen += f"__attribute__((naked)) void {n}() {{\n"
     codegen += "\tasm volatile(\n"
 
     orig_instr = disassemble(read_orig(addr, len(hex)))
@@ -115,14 +114,12 @@ patch(
 )
 
 
-create_hook("bool", "MenuLayer::init", ["void* self"], 0x27604c)
-create_hook("bool", "LoadingLayer::init", ["void* self", "bool fromReload"], 0x1dfa60)
-create_hook(
-    "bool", "GameManager::isIconUnlocked", ["void* self", "int a1", "int a2"], 0x3235D4
-)
-create_hook(
-    "bool", "GameManager::isColorUnlocked", ["void* self", "int a1", "int a2"], 0x3239A4
-)
+create_hook("MenuLayer::init", 0x27604C)
+create_hook("LoadingLayer::init", 0x1DFA60)
+create_hook("GameManager::isIconUnlocked", 0x3235D4)
+create_hook("GameManager::isColorUnlocked", 0x3239A4)
+create_hook("EditLevelLayer::init", 0xEA62C)
+create_hook("LevelBrowserLayer::init", 0x41D238)
 # create_hook("bool", "PauseLayer::init", ["void* self"], 0x14ABC4)
 # create_hook("bool", "PlayLayer::init", ["void* self, bool a1, bool b2"], 0x116610)
 # create_hook(
