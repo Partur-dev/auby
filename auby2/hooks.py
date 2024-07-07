@@ -2,6 +2,9 @@
 
 from keystone import *
 from capstone import *
+import os
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 ks = Ks(KS_ARCH_ARM64, KS_MODE_LITTLE_ENDIAN)
 cs = Cs(CS_ARCH_ARM64, CS_MODE_LITTLE_ENDIAN)

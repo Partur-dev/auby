@@ -1,5 +1,8 @@
 # https://github.com/CallocGD/PyBroma
 from pybroma import Root, FunctionBindField, Class, PadField, MemberField
+import os
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 FN_TEMPLATE = """{ret} {name}({args}) {const}{{
     static auto fn = reinterpret_cast<{ret} (*)({static_args})>(auby::internal::base() + {addr});
