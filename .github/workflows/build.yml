@@ -22,6 +22,8 @@ jobs:
         run: |
           git clone https://github.com/CallocGD/PyBroma.git --recursive
           cd PyBroma
+          python3 -m venv hueta
+          source hueta/bin/activate
           python3 -m pip install setuptools wheel cython capstone keystone
           python3 setup.py build_ext --inplace
           python3 -m pip install -U .
