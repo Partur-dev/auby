@@ -24,7 +24,6 @@ jobs:
           cd PyBroma
           sed -i -e 's/--std:c++17/--std=c++17/g' setup.py
           sed -i -e 's/\/O2/-O2/g' setup.py
-          brew install openssl
           export LDFLAGS="-L$(brew --prefix openssl)/lib"
           export CPPFLAGS="-I$(brew --prefix openssl)/include"
           python3 -m venv hueta
@@ -50,4 +49,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Auby
-          path: ${{github.workspace}}/build/libcatgirl.dylib
+          path: |
+            ${{github.workspace}}/build/libcatgirl.dylib
+            ${{github.workspace}}/auby2/bin/GeometryJump
