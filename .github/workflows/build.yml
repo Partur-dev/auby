@@ -18,7 +18,7 @@ jobs:
       - name: Check Xcode Version
         run: /usr/bin/xcodebuild -version
 
-      - name: Install Python deps
+      - name: Run Govnython Scripts
         run: |
           git clone https://github.com/CallocGD/PyBroma.git --recursive
           cd PyBroma
@@ -32,9 +32,6 @@ jobs:
           python3 -m pip install setuptools wheel cython capstone keystone-engine
           python3 setup.py build_ext --inplace
           python3 -m pip install -U .
-
-      - name: Run scripts
-        run: |
           python3 ${{github.workspace}}/auby2/hooks.py
           python3 ${{github.workspace}}/auby2/bindings.py
 
