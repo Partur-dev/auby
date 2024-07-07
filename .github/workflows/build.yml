@@ -22,15 +22,14 @@ jobs:
         run: |
           git clone https://github.com/CallocGD/PyBroma.git --recursive
           cd PyBroma
-          python setup.py build_ext --inplace
+          python3 -m pip install setuptools wheel cython capstone keystone
+          python3 setup.py build_ext --inplace
           python3 -m pip install -U .
-          python3 -m pip install capstone
-          python3 -m pip install keystone
 
       - name: Run scripts
         run: |
-          python3  ${{github.workspace}}/auby2/hooks.py
-          python3  ${{github.workspace}}/auby2/bindings.py
+          python3 ${{github.workspace}}/auby2/hooks.py
+          python3 ${{github.workspace}}/auby2/bindings.py
 
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release
