@@ -23,6 +23,7 @@ jobs:
           git clone https://github.com/CallocGD/PyBroma.git --recursive
           cd PyBroma
           brew install openssl
+          export LDFLAGS="-L$(brew --prefix openssl)/lib"
           export CPPFLAGS="-I$(brew --prefix openssl)/include"
           python3 -m venv hueta
           source hueta/bin/activate
