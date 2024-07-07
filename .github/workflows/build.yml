@@ -29,7 +29,12 @@ jobs:
           export CPPFLAGS="-I$(brew --prefix openssl)/include"
           python3 -m venv hueta
           source hueta/bin/activate
-          arch -arm64 python3 -m pip install setuptools wheel cython capstone keystone-engine --no-cache
+          wget https://pypi.python.org/packages/source/c/capstone/capstone-5.0.1.tar.gz
+          tar -xf capstone-5.0.1.tar.gz
+          cd capstone-5.0.1
+          python3 setup.py install
+          cd ..
+          python3 -m pip install setuptools wheel cython keystone-engine
           python3 setup.py build_ext --inplace
           python3 -m pip install -U .
           python3 ${{github.workspace}}/auby2/hooks.py
