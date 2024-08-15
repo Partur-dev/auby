@@ -1,3 +1,5 @@
+#pragma once
+
 namespace FMOD {
 struct Sound {};
 

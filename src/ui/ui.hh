@@ -1,5 +1,6 @@
 #pragma once
 
+#include "auby/settings.hh"
 #include <auby.hh>
 
 class UI {
@@ -15,7 +16,11 @@ private:
 
     struct ToggleElement : Element {
         std::string name;
-        bool* value;
+        auby::SettingsValue<bool>& value;
+
+        ToggleElement(std::string name, auby::SettingsValue<bool>& value) :
+            name(name),
+            value(value) {}
     };
 
     struct Tab {
@@ -23,7 +28,7 @@ private:
         std::vector<Element*> elements;
 
         Tab(std::string name);
-        Tab* toggle(std::string name, bool* value);
+        Tab* toggle(std::string name, auby::SettingsValue<bool>& value);
     };
 
     CCLayer* m_layer = nullptr;

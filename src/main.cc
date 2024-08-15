@@ -1,3 +1,5 @@
+#include "auby/auby.hh"
+#include "settings.hh"
 #include "ui/ui.hh"
 #include <auby.hh>
 

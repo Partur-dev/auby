@@ -4,6 +4,20 @@ import os
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+INCLUDES_TEMPLATE = """struct TodoReturnPlaceholder {};
+
+#include <unordered_set>
+
+#include <cocos-ext.h>
+#include <cocos2d.h>
+using namespace cocos2d;
+using namespace cocos2d::extension;
+#include <fmod/placeholder.hh>
+#include <gd/gd.hh>
+
+#include <auby/internal.hh>
+"""
+
 FN_TEMPLATE = """{ret} {name}({args}) {const}{{
     static auto fn = reinterpret_cast<{ret} (*)({static_args})>(auby::internal::base() + {addr});
     return fn({call_args});
@@ -161,7 +175,7 @@ for c in Root("deps/bindings/bindings/2.206/GeometryDash.bro").classes:
     )
 
 with open("src/generated_binds.cc", "w") as f:
-    f.write("#include <auby.hh>\n\n" + "\n\n".join(binds))
+    f.write(f"{INCLUDES_TEMPLATE}\n\n" + "\n\n".join(binds))
 
 with open("include/gd/generated.hh", "w") as f:
     f.write(

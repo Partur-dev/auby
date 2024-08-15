@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gd.hh"
 #include <auby.hh>
 
 template <auto fn, class... Args>

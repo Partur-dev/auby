@@ -1,4 +1,5 @@
 #include "ui.hh"
+#include "settings.hh"
 
 UI& UI::get() {
     static auto ui = UI();
@@ -13,10 +14,8 @@ UI::Tab::Tab(std::string name) {
     this->name = name;
 }
 
-UI::Tab* UI::Tab::toggle(std::string name, bool* value) {
-    auto el = new UI::ToggleElement();
-    el->name = name;
-    el->value = value;
+UI::Tab* UI::Tab::toggle(std::string name, auby::SettingsValue<bool>& value) {
+    auto el = new UI::ToggleElement(name, value);
     this->elements.push_back(el);
     return this;
 }
@@ -26,7 +25,7 @@ UI::UI() {
     m_layer->setTouchEnabled(true);
     m_layer->setTouchPriority(10);
 
-    auto winSize = CCDirector::sharedDirector()->getWinSize();
+    auto winSize = CCDirector::get()->getWinSize();
     m_layer->setPosition({winSize.width / 2, winSize.height / 2});
 
     loadTabs();
@@ -48,14 +47,14 @@ UI::Tab* UI::addTab(std::string name) {
 }
 
 void UI::setTab(Tab* tab) {
-    spdlog::info("Setting tab {}", tab->name);
+    spdlog::debug("Setting tab {}", tab->name);
 
-    // m_content->removeAllChildren();
+    m_content->removeAllChildren();
 
     for (Element* el : tab->elements) {
         if (auto toggle = dynamic_cast<ToggleElement*>(el)) {
-            auto btn = ccMenuItemSpriteExtraWithCallback<[](auto toggle) {
-                *toggle->value = !*toggle->value;
+            auto btn = ccMenuItemSpriteExtraWithCallback<[](ToggleElement* toggle) {
+                toggle->value = !toggle->value();
             }>(CCSprite::createWithSpriteFrameName("GJ_playBtn_001.png"), toggle);
 
             m_content->addChild(btn);
@@ -66,8 +65,8 @@ void UI::setTab(Tab* tab) {
 void UI::loadTabs() {
     bool test;
     addTab("Bypass");
-    addTab("Global")->toggle("Test", &test);
-    addTab("Level");
+    addTab("Global");
+    addTab("Level")->toggle("Verify Hack", settings::level::verifyHack);
     addTab("Player");
 }
 

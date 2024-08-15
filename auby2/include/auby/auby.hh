@@ -6,7 +6,8 @@
 
 namespace auby {
 void alert(std::string msg);
-void run_in_main_queue(std::function<void()> fn);
+void runInMainQueue(std::function<void()> fn);
+std::string getDocumentsDir();
 
 template <class T, class S>
 T union_cast(S s) {

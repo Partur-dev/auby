@@ -27,6 +27,7 @@ add_library(catgirl SHARED
   ${PROJ_SRC}
 )
 
+target_include_directories(catgirl PUBLIC src)
 target_link_libraries(catgirl PUBLIC auby2)
 
 if(CATALYST)
