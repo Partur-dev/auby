@@ -18,10 +18,10 @@ Open Source & JB-free mods for Geometry Dash
 
 ## 📋 TODO
 
+- Rewrite in Rust
 - Rewrite patcher in normal language
 - Load mod with dlopen
 - Geode support
-- Generate bindings from Partur-dev/bindings (or geode-sdk/bindings if i get invite to org)
 
 ## ❓ FAQ
 
